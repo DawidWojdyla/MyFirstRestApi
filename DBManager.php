@@ -1,7 +1,8 @@
 <?php 
 
-require_once("MyDB.php");
 require_once('constants.php');
+require_once('ResponseBuilder.php');
+require_once("MyDB.php");
 
 class DBManager extends MyDB {
 	
@@ -41,14 +42,36 @@ class DBManager extends MyDB {
 
 
 	function addNewNickname($nickname) {
-		
-		//adding nickname to database
 
+		if (!$this -> dbo) {
+			return SERVER_ERROR;
+		}
+
+		$query = $this -> dbo -> prepare ("INSERT INTO `nicknames` VALUES (NULL, :nickname, NOW())");
+		$query -> bindValue (':nickname', $nicknameTrim, PDO::PARAM_STR);
+		
+		if (!$query -> execute()){ 
+			return SERVER_ERROR;
+		}
+		return ACTION_OK;
 	}
 
 	function getLastInsertedData(){
 
-	//getting last inserted data
+		if (!$this -> dbo) {
+			$responseBuilder = new ResponseBuilder();
+			return  $responseBuilder -> getErrorResponse("server error");
+		}
+		
+		$data = array();
+		
+		if ($query = $this -> dbo -> prepare ("SELECT `id`, `nickname`, `date` FROM `nicknames` ORDER BY `id` DESC LIMIT 1")) {
+			if ($query -> execute()) { 
+				$data = $query -> fetch(PDO::FETCH_ASSOC);
+			}
+		}
+		
+		return json_encode($data);
 	}
 }
 	
