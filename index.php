@@ -1,6 +1,6 @@
 <?php
-
-header("Content-Type", "application/json; utf-8");
+// malformed header from script 'index.php': Bad header: Content-Type
+//header("Content-Type", "application/json; utf-8");
 
 require_once('ResponseBuilder.php');
 $responseBuilder = new ResponseBuilder();
@@ -41,6 +41,12 @@ if (isset($_GET['action']) && ($_GET['action'] == 'send_new_data' || $_GET['acti
 					switch ($dBManager -> addNewNickname($data -> nickname)):
 						case ACTION_OK: 
 								echo $responseBuilder  -> getSuccessResponse();
+								exit;
+						case ONLY_WHITESPACES: 
+								echo $responseBuilder  -> getErrorResponse("nickname contains only white characters");
+								exit;
+						case INVALID_DATA_LENGTH: 
+								echo $responseBuilder  -> getErrorResponse("invalid nickname length");
 								exit;
 						case SERVER_ERROR: 
 								echo $responseBuilder  -> getErrorResponse("server error");

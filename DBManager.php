@@ -46,6 +46,17 @@ class DBManager extends MyDB {
 		if (!$this -> dbo) {
 			return SERVER_ERROR;
 		}
+		
+		$nicknameTrim = trim($nickname);
+		if ($nicknameTrim == "") {
+			return ONLY_WHITESPACES;
+		}
+		
+		$nicknameLength = strlen(trim($nicknameTrim));
+		
+		if (nicknameLength < 1 && nicknameLength > 30) {
+			return INVALID_DATA_LENGTH;
+		}
 
 		$query = $this -> dbo -> prepare ("INSERT INTO `nicknames` VALUES (NULL, :nickname, NOW())");
 		$query -> bindValue (':nickname', $nicknameTrim, PDO::PARAM_STR);
