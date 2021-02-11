@@ -54,7 +54,7 @@ class DBManager extends MyDB {
 		
 		$nicknameLength = strlen(trim($nicknameTrim));
 		
-		if (nicknameLength < 1 && nicknameLength > 30) {
+		if ($nicknameLength < 1 || $nicknameLength > 30) {
 			return INVALID_DATA_LENGTH;
 		}
 
