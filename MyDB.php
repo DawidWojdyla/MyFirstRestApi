@@ -8,6 +8,7 @@ class MyDB
 	}
   
 	function initDB($host, $user, $password, $dbName, $dbType, $charset) {
+
 		$dsn = "$dbType:host=$host;dbname=$dbName;charset=$charset";
 		$options = [
 			PDO::ATTR_EMULATE_PREPARES => false,
@@ -20,7 +21,7 @@ class MyDB
 			
 		} catch (PDOException $e) {
 			
-			echo "Connection Error: " . $e -> getMessage();
+			return null;
 			
 		}
 		
