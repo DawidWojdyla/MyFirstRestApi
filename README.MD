@@ -1,1 +1,1 @@
-My first api for manage database using json requests 
+My first very simple api written in PHP for managing database using json requests 
