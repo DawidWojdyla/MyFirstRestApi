@@ -30,7 +30,7 @@ class DBManager extends MyDB {
 		}
 		
 		if (!$result = $query -> fetch(PDO::FETCH_NUM)){
-			SERVER_ERROR;
+			return SERVER_ERROR;
 		}
 		
 		if (!password_verify($password, $result[0])) {
