@@ -52,7 +52,7 @@ class DBManager extends MyDB {
 			return ONLY_WHITESPACES;
 		}
 		
-		$nicknameLength = strlen(trim($nicknameTrim));
+		$nicknameLength = strlen($nicknameTrim);
 		
 		if ($nicknameLength < 1 || $nicknameLength > 30) {
 			return INVALID_DATA_LENGTH;
