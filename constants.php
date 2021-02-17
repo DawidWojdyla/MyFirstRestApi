@@ -6,6 +6,6 @@
   define('POST_DATA_MISSING', 4);
   define('INVALID_CREDENTIALS', 5);
   define('INVALID_DATA_LENGTH', 6);
-  define('ONLY_WHITESPACES', 7);
+  define('ONLY_WHITESPACES_OR_NULL', 7);
   
 ?>

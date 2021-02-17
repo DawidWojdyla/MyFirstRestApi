@@ -17,7 +17,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'send_new_data' || $_GET['acti
 			exit;
 		}
 		
-		if (!array_key_exists('username', $data) || !array_key_exists('password', $data)) {
+		if (!property_exists($data, 'username') || !property_exists($data, 'password')) {
 			echo $responseBuilder  -> getErrorResponse("post data missing");
 			exit;
 		}
@@ -34,7 +34,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'send_new_data' || $_GET['acti
 					echo $dBManager -> getLastInsertedData();
 					exit;
 				else:		
-					if (!array_key_exists('nickname', $data)):
+					if (!property_exists($data, 'nickname')):
 						echo $responseBuilder  -> getErrorResponse("post data missing");
 						exit;
 					endif;
@@ -42,7 +42,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'send_new_data' || $_GET['acti
 						case ACTION_OK: 
 								echo $responseBuilder  -> getSuccessResponse();
 								exit;
-						case ONLY_WHITESPACES: 
+						case ONLY_WHITESPACES_OR_NULL: 
 								echo $responseBuilder  -> getErrorResponse("nickname contains only white characters");
 								exit;
 						case INVALID_DATA_LENGTH: 

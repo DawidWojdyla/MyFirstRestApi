@@ -49,10 +49,10 @@ class DBManager extends MyDB {
 		
 		$nicknameTrim = trim($nickname);
 		if ($nicknameTrim == "") {
-			return ONLY_WHITESPACES;
+			return ONLY_WHITESPACES_OR_NULL;
 		}
 		
-		$nicknameLength = strlen($nicknameTrim);
+		$nicknameLength = mb_strlen($nicknameTrim, 'utf8');
 		
 		if ($nicknameLength < 1 || $nicknameLength > 30) {
 			return INVALID_DATA_LENGTH;
