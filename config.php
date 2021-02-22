@@ -1,8 +1,8 @@
 <?php
 
-$db_host = "localhost";
-$db_user = "root";
-$db_password = "";
-$db_name = "davidowsky_androidDemo";
-
-?>
+return [
+    'db_host' => "localhost",
+    'db_user' => 'root',
+    'db_password' => '',
+    'db_name' => 'davidowsky_androidDemo'
+];
