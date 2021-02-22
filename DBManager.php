@@ -14,7 +14,7 @@ class DBManager
         $this->dbo = MyDB::initDB($host, $user, $password, $dbName, $dbType, $charset);
     }
 
-    public function checkCredentials($username, $password): int
+    public function checkCredentials(string $username, string $password): int
     {
         if (!$this->dbo) {
             return SERVER_ERROR;
@@ -44,7 +44,7 @@ class DBManager
         return ACTION_OK;
     }
 
-    public function addNewNickname($nickname): int
+    public function addNewNickname(string $nickname): int
     {
         if (!$this->dbo) {
             return SERVER_ERROR;

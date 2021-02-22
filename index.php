@@ -36,6 +36,12 @@ if (isset($_GET['action']) && ($_GET['action'] == 'send_new_data' || $_GET['acti
                         echo ResponseBuilder::getErrorResponse("post data missing");
                         exit;
                     endif;
+
+                    if ($data->nickname === null):
+                        echo ResponseBuilder::getErrorResponse("nickname can not be null");
+                        exit;
+                    endif;
+
                     switch ($dBManager->addNewNickname($data->nickname)):
                         case ACTION_OK:
                             echo ResponseBuilder::getSuccessResponse();
