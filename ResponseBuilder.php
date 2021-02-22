@@ -1,14 +1,17 @@
 <?php
 
-class ResponseBuilder {
-	
-		public function getErrorResponse($message) {
-			return "{'error': '{$message}'}";
-		}
-		
-		public function getSuccessResponse() {
-			return "{'success': 'true'}";
-		}
-} 
+declare(strict_types=1);
 
-?>
+class ResponseBuilder
+{
+
+    public static function getErrorResponse($message): string
+    {
+        return "{'error': '{$message}'}";
+    }
+
+    public static function getSuccessResponse(): string
+    {
+        return "{'success': 'true'}";
+    }
+}

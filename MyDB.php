@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 class MyDB
 {
-    public static function initDB($host, $user, $password, $dbName, $dbType, $charset)
+    public static function initDB($host, $user, $password, $dbName, $dbType, $charset): ?PDO
     {
         $dsn = "$dbType:host=$host;dbname=$dbName;charset=$charset";
         $options = [

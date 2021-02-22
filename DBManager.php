@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 require_once('ResponseBuilder.php');
 require_once("MyDB.php");
 
 class DBManager
 {
-    private $dbo;
+    private ?PDO $dbo;
 
-    function __construct($host, $user, $password, $dbName, $dbType = 'mysql', $charset = 'utf8')
+    public function __construct($host, $user, $password, $dbName, $dbType = 'mysql', $charset = 'utf8')
     {
         $this->dbo = MyDB::initDB($host, $user, $password, $dbName, $dbType, $charset);
     }
 
-    function checkCredentials($username, $password)
+    public function checkCredentials($username, $password): int
     {
         if (!$this->dbo) {
             return SERVER_ERROR;
@@ -42,7 +44,7 @@ class DBManager
         return ACTION_OK;
     }
 
-    function addNewNickname($nickname)
+    public function addNewNickname($nickname): int
     {
         if (!$this->dbo) {
             return SERVER_ERROR;
@@ -68,11 +70,10 @@ class DBManager
         return ACTION_OK;
     }
 
-    function getLastInsertedData()
+    public function getLastInsertedData(): string
     {
         if (!$this->dbo) {
-            $responseBuilder = new ResponseBuilder();
-            return $responseBuilder->getErrorResponse("server error");
+            return ResponseBuilder::getErrorResponse("server error");
         }
 
         $data = array();
