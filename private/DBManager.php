@@ -70,10 +70,10 @@ class DBManager
         return ACTION_OK;
     }
 
-    public function getLastInsertedData(): string
+    public function getLastInsertedData(ResponseBuilder $responseBuilder): string
     {
         if (!$this->dbo) {
-            return ResponseBuilder::getErrorResponse("server error");
+            return $responseBuilder->getErrorResponse("server error");
         }
 
         $data = array();

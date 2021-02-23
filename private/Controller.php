@@ -22,7 +22,7 @@ class Controller
         }
 
         if (is_null($json = $request->getPostData())) {
-            $this->getErrorResponseAndExit("post data missing or wrong format");
+            $this->getErrorResponseAndExit("post data missing");
         }
 
         if (!array_key_exists('username', $json) || !array_key_exists('password', $json)) {
@@ -36,7 +36,7 @@ class Controller
             require_once "constants.php";
             if ($this->areCredentialsValid($dbManager, $json['username'], $json['password'])) {
                 if ($action === "get_last_inserted_data") {
-                    echo $dbManager->getLastInsertedData();
+                    echo $dbManager->getLastInsertedData($this->responseBuilder);
                     exit;
                 } else if (!array_key_exists('nickname', $json)) {
                     $this->getErrorResponseAndExit("post data missing");
