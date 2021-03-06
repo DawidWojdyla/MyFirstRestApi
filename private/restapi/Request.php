@@ -18,6 +18,11 @@ class Request
         return $this->get['action'] ?? '';
     }
 
+    public function getToken(): string
+    {
+        return $this->get['token'] ?? '';
+    }
+
     public function getPostData(): array
     {
         return $this->post;

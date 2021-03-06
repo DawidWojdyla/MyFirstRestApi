@@ -17,15 +17,19 @@ class Controller
     {
         $action = $request->getAction();
 
+        if(!$this->isTokenValid($request->getToken())) {
+            $this->getErrorResponseAndExit("invalid token");
+        }
+
         if ($action !== "get_last_inserted_data" && $action !== "send_new_data") {
             $this->getErrorResponseAndExit("bad request");
         }
 
-        if (is_null($json = $request->getPostData())) {
+        if (is_null($post = $request->getPostData())) {
             $this->getErrorResponseAndExit("post data missing");
         }
 
-        if (!array_key_exists('username', $json) || !array_key_exists('password', $json)) {
+        if (!array_key_exists('username', $post) || !array_key_exists('password', $post)) {
             $this->getErrorResponseAndExit("credential data missing");
         }
 
@@ -34,16 +38,16 @@ class Controller
             $config = require_once 'config.php';
             $dbManager = new DBManager($config['db_host'], $config['db_user'], $config['db_password'], $config['db_name']);
             require_once "constants.php";
-            if ($this->areCredentialsValid($dbManager, $json['username'], $json['password'])) {
+            if ($this->areCredentialsValid($dbManager, $post['username'], $post['password'])) {
                 if ($action === "get_last_inserted_data") {
                     echo $dbManager->getLastInsertedData($this->responseBuilder);
                     exit;
-                } else if (!array_key_exists('nickname', $json)) {
+                } else if (!array_key_exists('nickname', $post)) {
                     $this->getErrorResponseAndExit("post data missing");
-                } else if ($json['nickname'] === null) {
+                } else if ($post['nickname'] === null) {
                     $this->getErrorResponseAndExit("nickname can not be null");
                 } else {
-                    $this->saveNickname($dbManager, $json['nickname']);
+                    $this->saveNickname($dbManager, $post['nickname']);
                 }
             }
         } catch (Exception $e) {
@@ -98,5 +102,20 @@ class Controller
     {
         echo $this->responseBuilder->getErrorResponse($message);
         exit;
+    }
+
+    private function isTokenValid(string $token): bool
+    {
+        if ($token == '') {
+            return false;
+        }
+        $time = intval(time()/10);
+        return hash_equals($token, $this->generateToken($time)) || hash_equals($token, $this->generateToken($time - 1));
+    }
+
+    private function generateToken(int $time): string {
+        $intArray = array_map('intval', str_split(strval($time)));
+        $tokenBase = array_sum($intArray) * 77 + 217;
+        return md5(strval($tokenBase));
     }
 }
